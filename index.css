@@ -5,3 +5,17 @@ body
     overflow: hidden;
     background-color: rgb(200, 255, 255);
 }
+
+.score-text-container
+{
+    position: absolute;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.score-text
+{
+    font-size: 3em;
+}
