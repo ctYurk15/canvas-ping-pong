@@ -3,6 +3,7 @@ class Engine
     game_objects = [];
     keys = {};
     button_actions = [];
+    frame_actions = [];
 
     constructor(canvas, background_color)
     {
@@ -23,6 +24,11 @@ class Engine
         this.button_actions.push({key: button, action: action});
     }
 
+    addFrameAction(action)
+    {
+        this.frame_actions.push(action);
+    }
+
     render()
     {
         this.clear();
@@ -31,6 +37,10 @@ class Engine
 
         this.game_objects.forEach(function(game_object){
             game_object.render(context);
+        });
+
+        this.frame_actions.forEach(function(frame_action){
+            frame_action();
         });
         
     }
