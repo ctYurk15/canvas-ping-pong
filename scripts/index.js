@@ -10,13 +10,13 @@ let win_score = 5;
 let scores = [0, 0];
 
 const rocket_margin = 20;
-const rocket_speed = 5;
+const rocket_speed = 20;
 const rocket_width = canvas.width/20;
 const rocket_height = canvas.height/3;
 const start_rocket_y = canvas.height/2-rocket_height/2;
 
 const ball_radius = 20;
-const ball_start_direction = {x: -1, y: 1};
+const ball_start_direction = {x: -1, y: -1};
 
 const rocket1 = new Rocket(rocket_margin, start_rocket_y, rocket_width, rocket_height, 'red');
 const rocket2 = new Rocket(canvas.width - rocket_width - rocket_margin, start_rocket_y, rocket_width, rocket_height, 'blue');
@@ -83,7 +83,6 @@ engine.addButtonPressEvent('ArrowDown', function(){
 
 engine.addFrameAction(function(){
     ball.move(canvas.height, canvas.width);
-    console.log(scores);
 });
 
 ui_manager.setStartAction(function(scores){
