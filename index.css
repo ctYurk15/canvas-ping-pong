@@ -19,3 +19,22 @@ body
 {
     font-size: 3em;
 }
+
+.start-container
+{
+    position: absolute;
+    width: 60%;
+    margin-left: 20%;
+    background-color: white;
+    display: grid;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 7px;
+    height: 20vh;
+    margin-top: 30vh;
+}
+
+.hidden
+{
+    display: none;
+}

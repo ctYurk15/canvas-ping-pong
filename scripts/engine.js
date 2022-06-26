@@ -4,6 +4,7 @@ class Engine
     keys = {};
     button_actions = [];
     frame_actions = [];
+    is_working = false;
 
     constructor(canvas, background_color)
     {
@@ -19,6 +20,17 @@ class Engine
         this.checkButtonsPress();
     }
 
+    start()
+    {
+        this.is_working = true;
+        this.registerEvents();
+    }
+
+    stop()
+    {
+        this.is_working = false;
+    }
+
     addButtonPressEvent(button, action)
     {
         this.button_actions.push({key: button, action: action});
@@ -31,18 +43,20 @@ class Engine
 
     render()
     {
-        this.clear();
+        if(this.is_working)
+        {
+            this.clear();
 
-        const context = this.context;
+            const context = this.context;
 
-        this.game_objects.forEach(function(game_object){
-            game_object.render(context);
-        });
+            this.game_objects.forEach(function(game_object){
+                game_object.render(context);
+            });
 
-        this.frame_actions.forEach(function(frame_action){
-            frame_action();
-        });
-        
+            this.frame_actions.forEach(function(frame_action){
+                frame_action();
+            });
+        }
     }
 
     clear()
@@ -60,24 +74,27 @@ class Engine
     {
         const self = this;
 
-        window.addEventListener('keydown', (e) => {
+        if(this.is_working)
+        {
+            window.addEventListener('keydown', (e) => {
             
-            self.keys[e.key] = true;
-            //console.log(self.keys);
-            self.button_actions.forEach(function(button_action){
+                self.keys[e.key] = true;
                 
-                if(self.keys[button_action.key])
-                {
-                    button_action.action();
-                }
-
+                self.button_actions.forEach(function(button_action){
+                    
+                    if(self.keys[button_action.key])
+                    {
+                        button_action.action();
+                    }
+    
+                });
             });
-        });
-
-        window.addEventListener('keyup', (e) => {
-            self.keys[e.key] = false;
-
-        });
+    
+            window.addEventListener('keyup', (e) => {
+                self.keys[e.key] = false;
+    
+            });
+        }
     }
 
 }

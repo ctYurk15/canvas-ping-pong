@@ -4,8 +4,10 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const engine = new Engine(canvas, 'rgb(200, 255, 255)');
+const ui_manager = new UI(document.querySelector("#startModal"), document.querySelector("#gameUI"));
 
-const scores = [0, 0];
+let win_score = 5;
+let scores = [0, 0];
 
 const rocket_margin = 20;
 const rocket_speed = 5;
@@ -26,8 +28,40 @@ ball.setGatesCollidAction(function(gate_index){
     scoreTables[0].innerHTML = scores[0];
     scoreTables[1].innerHTML = scores[1];
 
-    ball.x = canvas.width/2;
-    ball.y = canvas.height/2;
+    if(scores[0] >= win_score)
+    {
+        engine.clear();
+        engine.stop();
+        alert('First win!');
+        scores = [0, 0];
+        ui_manager.stop();
+
+        ball.x = canvas.width/2;
+        ball.y = canvas.height/2;
+        rocket1.y = start_rocket_y;
+        rocket2.y = start_rocket_y;
+        scores = [0, 0];
+
+    }
+    else if(scores[1] >= win_score)
+    {
+        engine.clear();
+        engine.stop();
+        alert('Second win!');
+        scores = [0, 0];
+        ui_manager.stop();
+
+        ball.x = canvas.width/2;
+        ball.y = canvas.height/2;
+        rocket1.y = start_rocket_y;
+        rocket2.y = start_rocket_y;
+    }
+    else
+    {
+        ball.x = canvas.width/2;
+        ball.y = canvas.height/2;
+    }
+    
 });
 
 engine.addObject(rocket1);
@@ -52,6 +86,12 @@ engine.addFrameAction(function(){
     console.log(scores);
 });
 
+ui_manager.setStartAction(function(scores){
+    engine.start();
+    win_score = scores;
+});
+
+//engine.start();
 let animation_frame;
 function loop()
 {
