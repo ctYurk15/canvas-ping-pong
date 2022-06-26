@@ -8,9 +8,24 @@ class Ball extends Circle
         this.rocket2 = rocket2;
     }
 
-    setDirection(direction)
+    setDirection(direction = null)
     {
-        this.direction = direction;
+        if(direction != null)
+        {
+            this.direction = direction;
+        } 
+        else this.direction = this.generateDirection();
+    }
+
+    generateDirection()
+    {
+        let x = 1;
+        let y = 1;
+
+        if(Math.random() <= 0.5) x = -1;
+        if(Math.random() <= 0.5) y = -1;
+
+        return {x: x, y: y};
     }
 
     setGatesCollidAction(action)
@@ -63,7 +78,7 @@ class Ball extends Circle
             this.direction.y = 1;
         }
 
-        //colliding with second rocket`s up side
+        //colliding with first rocket`s up side
         else if((this.x >= this.rocket1.x && this.x <= this.rocket1.x + this.rocket1.width)
             && this.rocket1.y.toFixed(0) == (this.y + this.radius).toFixed(0))
         {
@@ -71,7 +86,7 @@ class Ball extends Circle
         }
 
         
-        //colliding with second rocket`s down side
+        //colliding with first rocket`s down side
         else if((this.x >= this.rocket1.x && this.x <= this.rocket1.x + this.rocket1.width)
             && (parseInt(this.y) - parseInt(this.radius) - (parseInt(this.rocket1.y) + parseInt(this.rocket1.height)) <= 1
             && parseInt(this.y) - parseInt(this.radius) >= (parseInt(this.rocket1.y) + parseInt(this.rocket1.height)))
