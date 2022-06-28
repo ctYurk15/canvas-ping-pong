@@ -2,9 +2,8 @@ class BallSize extends Bonus
 {
     constructor(x, y, ball, ball_radius, bonus_time, real_ball_radius)
     {
-        super(x, y, 25, 'aqua', ball);
+        super(x, y, 25, 'aqua', ball, bonus_time);
         this.ball_radius = ball_radius;
-        this.bonus_time = bonus_time;
         this.real_ball_radius = real_ball_radius;
     }
 
@@ -21,13 +20,7 @@ class BallSize extends Bonus
 
     draw(canvas_context)
     {
-        /*canvas_context.arc(this.x, this.y, 5, 0, Math.PI * 2, false);
-        canvas_context.fillStyle = this.color;
-
-        canvas_context.arc(this.x, this.y+5, 5, 0, Math.PI * 2, false);
-        canvas_context.fillStyle = this.color;*/
-
-        const particle_radius = 3;
+        const particle_radius = 5;
         let particles_count = parseInt(Math.random() * 20) + 1;
         particles_count = Math.max(particles_count, 10);
 
@@ -36,7 +29,7 @@ class BallSize extends Bonus
             let x = Math.random() * this.radius + 1;
             let y = Math.random() * this.radius + 1;
 
-            canvas_context.arc(this.x + x, this.y+y, 5, 0, Math.PI * 2, false);
+            canvas_context.arc(this.x + x, this.y+y, particle_radius, 0, Math.PI * 2, false);
             canvas_context.fillStyle = this.color;
 
         }

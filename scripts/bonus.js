@@ -1,9 +1,10 @@
 class Bonus extends Circle
 {
-    constructor(x, y, radius, color, ball)
+    constructor(x, y, radius, color, ball, bonus_time)
     {
         super(x, y, radius, color);
         this.ball = ball;
+        this.bonus_time = bonus_time;
     }
 
     setCollisionFunction(collisionFunction)

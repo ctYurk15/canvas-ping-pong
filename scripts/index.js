@@ -9,13 +9,16 @@ const ui_manager = new UI(document.querySelector("#startModal"), document.queryS
 let win_score = 5;
 let scores = [0, 0];
 
-const bonus_probability = 300;
+const bonus_probability = 100;
 const bonus_x = canvas.width/2;
 const bonus_lifetime = 10000; // in miliseconds
 
+const ball_speed_lifetime = 7000;
+const ball_random_lifetime = 8000;
+
 const bonus_radius = 25;
 
-const bonus_max_lifetime = 25000; // in miliseconds
+const bonus_max_lifetime = 20000; // in miliseconds
 const bonus_min_lifetime = 10000;
 
 const rocket_margin = 20;
@@ -115,7 +118,7 @@ engine.addFrameAction(function(){
 //spawning bonuses
 engine.addFrameAction(function(){
     
-    if(parseInt(Math.random() * bonus_probability) == 1)
+    if(parseInt(Math.random() * bonus_probability) == 1 && engine.is_working)
     {
         //where we should spanw bonus
         let bonus_y = Math.random() * (canvas.height - bonus_radius*2) + bonus_radius*2;
@@ -125,7 +128,7 @@ engine.addFrameAction(function(){
         bonus_time = Math.max(bonus_time, bonus_min_lifetime);
 
         //which bonus we should spawn
-        let number = parseInt(Math.random() * 2) + 1;
+        let number = parseInt(Math.random() * 3) + 1;
         let bonus = null;
 
         switch(number)
@@ -134,7 +137,10 @@ engine.addFrameAction(function(){
                 bonus = new BallSize(bonus_x, bonus_y, ball, 5, bonus_time, ball_radius);
                 break;
             case 2:
-                bonus = new BallSpeed(bonus_x, bonus_y, ball, ball_speed*3, 'yellow', 7000, ball_speed, ball_color);
+                bonus = new BallSpeed(bonus_x, bonus_y, ball, ball_speed*3, 'yellow', ball_speed_lifetime, ball_speed, ball_color);
+                break;
+            case 3:
+                bonus = new BallRandom(bonus_x, bonus_y, ball, ball_random_lifetime);
                 break;
         }
 

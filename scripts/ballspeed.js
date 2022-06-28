@@ -2,7 +2,7 @@ class BallSpeed extends Bonus
 {
     constructor(x, y, ball, ball_speed, ball_color, bonus_time, real_ball_speed, real_ball_color)
     {
-        super(x, y, 25, 'yellow', ball);
+        super(x, y, 25, 'yellow', ball, bonus_time);
         this.ball_speed = ball_speed;
         this.ball_color = ball_color;
         this.bonus_time = bonus_time;

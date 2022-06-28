@@ -1,5 +1,10 @@
 class Ball extends Circle
 {
+    curver = {
+        x: 0,
+        y: 0
+    };
+
     constructor(x, y, radius, color, speed, rocket1, rocket2)
     {
         super(x, y, radius, color);
@@ -15,6 +20,11 @@ class Ball extends Circle
             this.direction = direction;
         } 
         else this.direction = this.generateDirection();
+    }
+
+    setBallCurver(curver)
+    {
+        this.curver = curver;
     }
 
     generateDirection()
@@ -110,8 +120,8 @@ class Ball extends Circle
     move(canvas_height, canvas_width)
     {
 
-        this.x = this.x + (this.direction.x * this.speed);
-        this.y = this.y + (this.direction.y * this.speed);
+        this.x = this.x + ((this.direction.x + this.curver.x) * this.speed);
+        this.y = this.y + ((this.direction.y + this.curver.y) * this.speed);
 
         this.checkBorderCollision(canvas_height);
         this.checkRocketsCollision();
