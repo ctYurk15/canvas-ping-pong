@@ -9,25 +9,28 @@ const ui_manager = new UI(document.querySelector("#startModal"), document.queryS
 let win_score = 5;
 let scores = [0, 0];
 
-const bonus_probability = 100;
+const bonus_probability = 300;
 const bonus_x = canvas.width/2;
 const bonus_lifetime = 10000; // in miliseconds
 
-const ballsize_bonus_radius = 25;
-const ballsize_max_lifetime = 25000; // in miliseconds
-const ballsize_min_lifetime = 10000;
+const bonus_radius = 25;
+
+const bonus_max_lifetime = 25000; // in miliseconds
+const bonus_min_lifetime = 10000;
 
 const rocket_margin = 20;
-const rocket_speed = 20;
+const rocket_speed = 27;
 const rocket_width = canvas.width/20;
 const rocket_height = canvas.height/3;
 const start_rocket_y = canvas.height/2-rocket_height/2;
 
 const ball_radius = 20;
+const ball_speed = 3;
+const ball_color = 'green';
 
 const rocket1 = new Rocket(rocket_margin, start_rocket_y, rocket_width, rocket_height, 'red');
 const rocket2 = new Rocket(canvas.width - rocket_width - rocket_margin, start_rocket_y, rocket_width, rocket_height, 'blue');
-const ball = new Ball(canvas.width/2, canvas.height/2, ball_radius, 'green', 2, rocket1, rocket2);
+const ball = new Ball(canvas.width/2, canvas.height/2, ball_radius, ball_color, ball_speed, rocket1, rocket2);
 ball.setDirection();
 
 /*const ball_start_direction = {x: -1, y: -1};
@@ -114,22 +117,39 @@ engine.addFrameAction(function(){
     
     if(parseInt(Math.random() * bonus_probability) == 1)
     {
-        let bonus_y = Math.random() * (canvas.height - ballsize_bonus_radius*2) + ballsize_bonus_radius*2;
-        bonus_y = Math.min(bonus_y, canvas.height - ballsize_bonus_radius*2);
+        //where we should spanw bonus
+        let bonus_y = Math.random() * (canvas.height - bonus_radius*2) + bonus_radius*2;
+        bonus_y = Math.min(bonus_y, canvas.height - bonus_radius*2);
 
-        let bonus_time = parseInt(Math.random() * ballsize_max_lifetime) + 1;
-        bonus_time = Math.max(bonus_time, ballsize_min_lifetime);
+        let bonus_time = parseInt(Math.random() * bonus_max_lifetime) + 1;
+        bonus_time = Math.max(bonus_time, bonus_min_lifetime);
 
-        let bonus = new BallSize(bonus_x, bonus_y, ball, 5, bonus_time, ball_radius);
-        let bonus_id = engine.addObject(bonus);
+        //which bonus we should spawn
+        let number = parseInt(Math.random() * 2) + 1;
+        let bonus = null;
 
-        bonus.setCollisionFunction(function(){
-            engine.deleteObject(bonus_id);
-        });
-        
-        setTimeout(function(){
-            engine.deleteObject(bonus_id);
-        }, bonus_lifetime);
+        switch(number)
+        {
+            case 1:
+                bonus = new BallSize(bonus_x, bonus_y, ball, 5, bonus_time, ball_radius);
+                break;
+            case 2:
+                bonus = new BallSpeed(bonus_x, bonus_y, ball, ball_speed*3, 'yellow', 7000, ball_speed, ball_color);
+                break;
+        }
+
+        if(bonus != null)
+        {
+            let bonus_id = engine.addObject(bonus);
+
+            bonus.setCollisionFunction(function(){
+                engine.deleteObject(bonus_id);
+            });
+            
+            setTimeout(function(){
+                engine.deleteObject(bonus_id);
+            }, bonus_lifetime);
+        }
     }
 
 });
