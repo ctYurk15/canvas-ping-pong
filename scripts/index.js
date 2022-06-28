@@ -9,6 +9,14 @@ const ui_manager = new UI(document.querySelector("#startModal"), document.queryS
 let win_score = 5;
 let scores = [0, 0];
 
+const bonus_probability = 100;
+const bonus_x = canvas.width/2;
+const bonus_lifetime = 10000; // in miliseconds
+
+const ballsize_bonus_radius = 25;
+const ballsize_max_lifetime = 25000; // in miliseconds
+const ballsize_min_lifetime = 10000;
+
 const rocket_margin = 20;
 const rocket_speed = 20;
 const rocket_width = canvas.width/20;
@@ -75,10 +83,21 @@ engine.addObject(ball);
 
 engine.addButtonPressEvent('w', function(){
     rocket1.move(-1*rocket_speed, canvas.height);
+    //ball.y-= rocket_speed;
 });
 engine.addButtonPressEvent('s', function(){
     rocket1.move(rocket_speed, canvas.height);
+    //ball.y += rocket_speed;
 });
+
+/*engine.addButtonPressEvent('a', function(){
+    rocket1.move(-1*rocket_speed, canvas.height);
+    ball.x-= rocket_speed;
+});
+engine.addButtonPressEvent('d', function(){
+    rocket1.move(rocket_speed, canvas.height);
+    ball.x += rocket_speed;
+});*/
 engine.addButtonPressEvent('ArrowUp', function(){
     rocket2.move(-1*rocket_speed, canvas.height);
 });
@@ -88,6 +107,31 @@ engine.addButtonPressEvent('ArrowDown', function(){
 
 engine.addFrameAction(function(){
     ball.move(canvas.height, canvas.width);
+});
+
+//spawning bonuses
+engine.addFrameAction(function(){
+    
+    if(parseInt(Math.random() * bonus_probability) == 1)
+    {
+        let bonus_y = Math.random() * (canvas.height - ballsize_bonus_radius*2) + ballsize_bonus_radius*2;
+        bonus_y = Math.min(bonus_y, canvas.height - ballsize_bonus_radius*2);
+
+        let bonus_time = parseInt(Math.random() * ballsize_max_lifetime) + 1;
+        bonus_time = Math.max(bonus_time, ballsize_min_lifetime);
+
+        let bonus = new BallSize(bonus_x, bonus_y, ball, 5, bonus_time, ball_radius);
+        let bonus_id = engine.addObject(bonus);
+
+        bonus.setCollisionFunction(function(){
+            engine.deleteObject(bonus_id);
+        });
+        
+        setTimeout(function(){
+            engine.deleteObject(bonus_id);
+        }, bonus_lifetime);
+    }
+
 });
 
 ui_manager.setStartAction(function(scores){

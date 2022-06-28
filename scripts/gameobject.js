@@ -1,5 +1,7 @@
 class GameObject
 {
+    id = null;
+
     constructor(x, y)
     {
         this.x = x;

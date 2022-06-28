@@ -67,7 +67,16 @@ class Engine
 
     addObject(game_object)
     {
+        game_object.id = this.game_objects.length;
         this.game_objects.push(game_object);
+        return game_object.id;
+    }
+
+    deleteObject(object_index)
+    {
+        this.game_objects = this.game_objects.filter(function(game_object){
+            return game_object.id != object_index
+        });
     }
 
     checkButtonsPress()
