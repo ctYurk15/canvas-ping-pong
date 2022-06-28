@@ -23,6 +23,14 @@ class UI
         scoreTables[1].innerHTML = '0';
     }
 
+    getColors()
+    {
+        let first_rocket_color = document.querySelector("#firstRocketColorInput").value;
+        let second_rocket_color = document.querySelector("#secondRocketColorInput").value;
+
+        return [first_rocket_color, second_rocket_color]
+    }
+
     stop()
     {
         this.start_modal.classList.remove('hidden');

@@ -30,11 +30,16 @@ body
     justify-content: center;
     padding: 20px;
     border-radius: 7px;
-    height: 20vh;
+    height: auto;
     margin-top: 30vh;
 }
 
 .hidden
 {
     display: none;
+}
+
+input[type=color]
+{
+    display: inline-block;
 }

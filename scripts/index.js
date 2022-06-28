@@ -162,6 +162,11 @@ engine.addFrameAction(function(){
 
 ui_manager.setStartAction(function(scores){
     engine.start();
+    const selected_colors = ui_manager.getColors();
+
+    rocket1.color = selected_colors[0];
+    rocket2.color = selected_colors[1];
+
     win_score = scores;
 });
 
